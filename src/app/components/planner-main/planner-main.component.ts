@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PlanService } from '../../services/plan.service';
-import { TravelDay } from '../../api/models/travel-day.model';
 import { Plan } from '../../api/models/plan.model';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PlanCardComponent } from "./plan-card/plan-card.component";
 
 @Component({
     selector: 'app-planner-main',
-    imports: [],
+    imports: [MatExpansionModule, PlanCardComponent],
     templateUrl: './planner-main.component.html',
     styleUrl: './planner-main.component.scss'
 })
 export class PlannerMainComponent {
-    response = '';
-    plan!: Plan;
+    readonly panelOpenState = signal(false);
+
+    plans: Plan[] = [];
+
     constructor(private planService: PlanService) {
-        planService.getPlan(1).subscribe(response => {
-            this.plan = response;
+        planService.getPlans().subscribe(response => {
+            this.plans = response;
         });
     }
 }

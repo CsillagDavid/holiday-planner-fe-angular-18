@@ -1,6 +1,18 @@
 .container {
     overflow-y: auto;
     scroll-behavior: smooth;
-    height: 90vh;
+    height: 100%;
     background-color: gray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    app-plan-card {
+        display: flex;
+        // flex: 1;
+        flex-shrink: initial;
+        flex-direction: column;
+        margin-top: 10px;
+    }
 }

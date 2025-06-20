@@ -5,5 +5,6 @@ export interface Plan {
   name: string;
   travelFrom: Date;
   travelTo: Date;
+  indexImagePath: string;
   travelDays: TravelDay[];
 }

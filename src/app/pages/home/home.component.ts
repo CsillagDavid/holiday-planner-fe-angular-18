@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { PlannerMainComponent } from "../../components/planner-main/planner-main.component";
-import { MapComponent } from "../../components/map/map.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [PlannerMainComponent, MapComponent],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

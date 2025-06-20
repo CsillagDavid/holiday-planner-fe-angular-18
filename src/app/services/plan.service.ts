@@ -20,6 +20,6 @@ export class PlanService {
     }
 
     getPlans(): Observable<Plan[]>{
-        return this.http.get<Plan[]>(ApiRoutes.plans.getAll, {headers: this.headers});
+        return this.http.get<Plan[]>(ApiRoutes.plans.getByUser, {headers: this.headers});
     }
 }

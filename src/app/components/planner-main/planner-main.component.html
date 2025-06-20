@@ -1,5 +1,5 @@
 <div class="container">
-    @for(travelDay of this.plan?.travelDays; track travelDay.id) {
-    <div>{{travelDay.name}}</div>
+    @for(plan of this.plans; track $index) {
+    <app-plan-card [plan]="plan"></app-plan-card>
     }
 </div>
