@@ -1,0 +1,39 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: center;
+    height: 4rem;
+}
+
+.login-container {
+    width: 500px;
+    // background-color: rgb(0, 0, 0);
+    // border-color: rgb(230, 230, 230);
+    color: white;
+
+    .form-field {
+        width: 100%;
+        display: inline-grid;
+
+        .forgot-password {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 1rem;
+            padding-bottom: 1rem;
+            color: rgb(157, 157, 157);
+        }
+
+        .login-button {
+            color: rgb(255, 255, 255);
+            background-color: rgb(30, 10, 154);
+        }
+    }
+}

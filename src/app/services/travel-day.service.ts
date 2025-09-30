@@ -2,13 +2,12 @@ import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiRoutes } from "../api/api-routes";
-import { Plan } from "../api/models/plan.model";
 import { TravelDay } from "../api/models/travel-day.model";
 
 @Injectable({
     providedIn: 'root'
 })
-export class PlanService {
+export class TravelDayService {
     private headers = new HttpHeaders({
         'Content-Type': 'application/json'
     });
@@ -16,19 +15,15 @@ export class PlanService {
 
     constructor(private http: HttpClient) { }
 
-    getPlan(planId: number): Observable<Plan> {
-        return this.http.get<Plan>(ApiRoutes.plan.getById(planId), { headers: this.headers });
+    getTravelDay(travelDayId: number): Observable<TravelDay> {
+        return this.http.get<TravelDay>(ApiRoutes.travelDay.getById(travelDayId), { headers: this.headers });
     }
 
-    upsertTravelDay(planId: number, travelDay: TravelDay) {
-        return this.http.post<Plan>(ApiRoutes.plan.upsertTravelDay(planId), travelDay, { headers: this.headers });
-    }
-
-    deletePlan() {
+    updateTravelDay() {
         throw new Error('Method not implemented.');
     }
 
-    getPlans(): Observable<Plan[]> {
-        return this.http.get<Plan[]>(ApiRoutes.plan.getByUser, this.options);
+    deleteTravelDay() {
+        throw new Error('Method not implemented.');
     }
 }

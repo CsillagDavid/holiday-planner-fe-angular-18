@@ -1,0 +1,19 @@
+.activity-container {
+    padding: 8px 0px 0px 8px;
+
+}
+
+.panel-title-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center; // opcionális, ha vertikálisan is szeretnéd igazítani
+}
+
+.name {
+  text-align: left;
+}
+
+.plannedDurationTime {
+  text-align: right;
+}

@@ -1,0 +1,25 @@
+@if(destination){
+<div class="destination-container">
+    <div class="destination-info-container">
+        <div class="icon-name-container">
+            <div class="destination-type"><mat-icon>{{getDestinationTypeIcon()}}</mat-icon></div>
+            <div class="name">{{destination.name}}</div>
+        </div>
+        <div class="time-container">
+            @if(destination.durationTime){
+            <div class="duration-time"><span>{{destination.durationTime}}</span><mat-icon>timer</mat-icon></div>
+            }
+            @if(destination.travelTime){
+            <div class="travel-time"><span>{{destination.travelTime}}</span><mat-icon>time_to_leave</mat-icon></div>
+            }
+        </div>
+    </div>
+    <div cdkDropList class="activity-drag-and-drop-container" (cdkDropListDropped)="drop($event)">
+        @for(activity of sortedActivities; track activity.id) {
+        <div cdkDrag>
+            <app-activity [activity]="activity"></app-activity>
+        </div>
+        }
+    </div>
+</div>
+}

@@ -35,6 +35,11 @@
               "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

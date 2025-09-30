@@ -1,0 +1,18 @@
+@if(activity){
+<div class="activity-container">
+    <mat-expansion-panel [disabled]="activity.costs.length === 0">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="panel-title-row">
+                <div class="name">{{activity.name}}</div>
+                <div>{{activity.id}} - {{activity.sortOrder}}</div>
+                <!-- <div class="plannedDurationTime">{{activity.plannedDurationTime}}</div> -->
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="cost-container">
+            @for(cost of activity.costs; track $index){
+            <app-cost [cost]="cost"></app-cost>
+            }
+        </div>
+    </mat-expansion-panel>
+</div>
+}

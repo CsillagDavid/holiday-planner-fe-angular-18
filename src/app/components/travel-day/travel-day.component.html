@@ -1,0 +1,23 @@
+@if(travelDay) {
+<div class="travel-day-container">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div class="name">{{travelDay.name}}</div>
+            </mat-panel-title>
+            <mat-panel-description>
+                <div class="date-container">
+                    <div class="startDayAt">{{travelDay.startDayAt}}</div>
+                    <div class="travelDate">{{travelDay.travelDate}}</div>
+                </div>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        @for(destination of travelDay.destinations; track $index){
+        <app-destination [destination]="destination"></app-destination>
+        }
+        <button matIconButton class="add-button">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-expansion-panel>
+</div>
+}

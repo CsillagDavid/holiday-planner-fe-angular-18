@@ -4,36 +4,19 @@ import {
     HttpInterceptor,
     HttpRequest,
     HttpHandler,
-    HttpEvent
+    HttpEvent,
+    HttpInterceptorFn
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const excludedRoutes = ['/login', "/signin"]
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
-
-    constructor() { }
-
-    intercept(
-        req: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
-        const token = localStorage.getItem('token');
-
-        if (excludedRoutes.find(x => req.url.includes(x)) ) {
-            return next.handle(req);
-        }
-
-        if (token) {
-            const cloned = req.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            return next.handle(cloned);
-        }
-
-        return next.handle(req);
-    }
+export const TokenInterceptor: HttpInterceptorFn = (req, next) => {
+    // if (excludedRoutes.find(x => req.url.includes(x))) {
+    //     return next(req);
+    // }
+    const cloned = req.clone({
+        withCredentials: true
+    });
+    return next(cloned);
 }

@@ -1,5 +1,31 @@
-@if(!this.plan) {
+<div class="main-container">
+    @if(!this.plan) {
     <!-- <span>Loading...</span> -->
-} @else {
-    <span>{{plan.name}}</span>
-}
+    } @else {
+    <div class="details-container">
+        <div class="plan-name"><span>{{plan.name}}</span></div>
+        <div class="travel-from-to-container">
+            <span class="travel-from">{{plan.travelFrom}}</span>
+            <span class="travel-to">{{plan.travelTo}}</span>
+        </div>
+        <div class="travel-day-container">
+            @for(travelDay of plan.travelDays; track $index){
+            <app-travel-day [travelDay]="travelDay"></app-travel-day>
+            }
+        </div>
+    </div>
+    }
+    @if(showAddForm){
+    <div class="add-travel-day-container">
+        <form [formGroup]="addTravelDayFormGroup">
+            <mat-form-field>
+                <input matInput type="text" formControlName="travelDayName" [placeholder]="'Travel day name'" />
+            </mat-form-field>
+            <button matButton (click)="onSave()">Save</button>
+        </form>
+    </div>
+    }
+    <button matIconButton id="add-button" class="add-button" (click)="onAddTravelDay()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

@@ -1,0 +1,39 @@
+.travel-from-to-container {
+    display: flexbox;
+    flex-direction: column;
+}
+
+.travel-day-container {
+    margin: 16px 0px 0px 0px;
+    direction: ltr;
+}
+
+.main-container {
+  height: 90vh;
+  overflow-y: auto;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #000 #2e2e2e;
+  scroll-behavior: smooth;
+  direction: rtl;
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+.main-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-container::-webkit-scrollbar-track {
+  background: #2e2e2e;
+  border-radius: 8px;
+}
+
+.main-container::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 8px;
+}
+
+.main-container::-webkit-scrollbar-thumb:hover {
+  background: #1a1a1a;
+}
