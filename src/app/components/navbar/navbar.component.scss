@@ -1,0 +1,119 @@
+@import '../../../colors.scss';
+
+// .main-container{
+//     display: flex;
+//     flex-direction: row;
+//     height: 35px;
+//     align-items: center;
+// }
+
+// a {
+//     color: $light-color;
+//     width: 75px;
+// }
+
+// .nav ul {
+//     margin: 0;
+// }
+
+// .nav li {
+//     display: inline;
+// }
+
+// .nav a {
+//     display: inline-block;
+//     padding: .5em;
+//     color: white;
+//     text-decoration: none;
+// }
+
+// .main-nav {
+//     text-align: center;
+//     font-size: 1.1em;
+//     font-weight: lighter;
+//     border-bottom: 1px solid rgba(255, 255, 255, .3);
+// }
+
+// .main-nav li {
+//     padding: 0 5%;
+// }
+
+// .nav a:hover {
+//     background-color: rgba(255, 255, 255, 0.1);
+//     cursor: pointer;
+// }
+
+// .main-header {
+//     background-color: rgba(45, 45, 75, .25);
+//     // background-image: url("Images/Header Background.jpg");
+//     background-blend-mode: multiply;
+//     background-size: cover;
+//     // padding-bottom: 30px;
+// }
+
+.nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.nav-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: flex-end;
+}
+
+.nav a {
+    display: inline-block;
+    color: $light-color;
+    text-decoration: none;
+}
+
+.main-nav {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: lighter;
+    border-bottom: 1px solid $silver-color;
+}
+
+.main-header {
+    background-color: $dark-color;
+    background-blend-mode: multiply;
+    background-size: cover;
+}
+
+.nav-element {
+    margin: 0;
+}
+
+.nav-element:hover {
+    background-color: hover-color($dark-color);
+    cursor: pointer;
+}
+
+.nav-element a {
+    padding: 15px;
+}
+
+.nav-element:nth-of-type(n+2) {
+    border-color: $silver-color;
+    border-style: outset;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    border-left-width: 1px;
+}
+
+.active-link {
+    color: $dark-color !important;
+    background-color: $concrete-color;
+    font-weight: bolder;
+}

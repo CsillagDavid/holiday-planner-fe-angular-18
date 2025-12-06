@@ -97,33 +97,34 @@ export class MapComponent implements AfterViewInit {
 		// 		this.addGpx(url);
 		// 	});
 
-		this.http.get("https://localhost:44375/api/attachment/allToDisplay", { responseType: 'json' })
-			.subscribe(res => {
-				(res as any[]).forEach(gpxString => {
-					const parser = new DOMParser();
-					const xmlDoc = parser.parseFromString(gpxString, 'application/xml');
-					this.addGpx(gpxString);
-				});
+		//TODO!!! Mivel nincs leszűrve, hogy csak xml file-okat adjon vissza az endpoint, így a feltöltött képeket is visszaadja és meghal a kód
+		// this.http.get("https://localhost:44375/api/attachment/allToDisplay", { responseType: 'json' })
+		// 	.subscribe(res => {
+		// 		(res as any[]).forEach(gpxString => {
+		// 			const parser = new DOMParser();
+		// 			const xmlDoc = parser.parseFromString(gpxString, 'application/xml');
+		// 			this.addGpx(gpxString);
+		// 		});
 
-				this.map.fitBounds(this.boundsGroup.getBounds());
+		// 		this.map.fitBounds(this.boundsGroup.getBounds());
 
-				// this.map.on('zoomend', () => {
-				// 	const show = this.map.getZoom() >= this.ZOOM_THRESHOLD;
-				// 	console.log(show);
-				// 	this.gpxLayers.forEach(gpx => {
-				// 		gpx.getLayers().forEach((layer: any) => {
-				// 			console.log(layer._layers);
-				// 			// if (layer instanceof L.Marker) {
-				// 			// 	const iconEl = layer.getElement();
-				// 			// 	console.log(iconEl);
-				// 			// 	if (iconEl) {
-				// 			// 		iconEl.style.display = show ? '' : 'none';
-				// 			// 	}
-				// 			// }
-				// 		});
-				// 	});
-				// });
-			});
+		// 		// this.map.on('zoomend', () => {
+		// 		// 	const show = this.map.getZoom() >= this.ZOOM_THRESHOLD;
+		// 		// 	console.log(show);
+		// 		// 	this.gpxLayers.forEach(gpx => {
+		// 		// 		gpx.getLayers().forEach((layer: any) => {
+		// 		// 			console.log(layer._layers);
+		// 		// 			// if (layer instanceof L.Marker) {
+		// 		// 			// 	const iconEl = layer.getElement();
+		// 		// 			// 	console.log(iconEl);
+		// 		// 			// 	if (iconEl) {
+		// 		// 			// 		iconEl.style.display = show ? '' : 'none';
+		// 		// 			// 	}
+		// 		// 			// }
+		// 		// 		});
+		// 		// 	});
+		// 		// });
+		// 	});
 	}
 
 	addGpx(url: any) {

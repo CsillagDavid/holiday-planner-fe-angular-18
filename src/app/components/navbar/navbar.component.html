@@ -1,0 +1,17 @@
+<header class="main-header nav main-nav">
+    <div class="nav-container">
+        <div class="nav-left">
+            @for(menuItem of menuItems; track menuItem.navTo){
+            <div class="nav-element">
+                <a [routerLink]="menuItem.navTo || ''" [routerLinkActive]="['active-link']"
+                    [routerLinkActiveOptions]="{exact: true}" (isActiveChange)="this.onRouterLinkActive($event)">
+                    {{menuItem.literal}}
+                </a>
+            </div>
+            }
+        </div>
+        <div class="nav-right">
+            <app-user-menu-item></app-user-menu-item>
+        </div>
+    </div>
+</header>

@@ -1,6 +1,8 @@
+@import '../../../../colors.scss';
+
 .container {
     width: 200px;
-    background-color: bisque;
+    background-color: $mid-dark-color;
     padding: 5px;
 
     .header {
@@ -16,10 +18,13 @@
     .index-img-container {
         max-width: 200px;
         max-height: 150px;
-    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 200px;
+            max-height: 150px;
         }
     }
 
@@ -32,20 +37,22 @@
     .travel-dates-container {
         height: 25px;
         margin-bottom: 15px;
+
         span {
             font-size: small;
         }
     }
 
-    .select-button-container{
-        height: 25px;
+    .select-button-container {
+        width: 100%;
+
         button {
+            height: 25px;
             width: 100%;
-            height: 100%;
-            background-color: rgb(0, 0, 61);
+            background-color: $primer-color;
             border: none;
-            font-size: medium;
-            color: rgb(240, 240, 240);
+            font-weight: bolder;
+            color: $dark-color;
             cursor: pointer;
         }
     }

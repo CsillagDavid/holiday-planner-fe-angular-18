@@ -1,0 +1,107 @@
+@import 'colors.scss';
+
+.mat-mdc-menu-panel {
+    background-color: $dark-color !important;
+    border-radius: 0px 0px 2px 2px !important;
+}
+
+.mat-mdc-menu-content {
+    padding: 0 !important;
+}
+
+.mat-mdc-menu-item {
+    color: white !important;
+}
+
+.mat-mdc-menu-item:hover {
+    background: $mid-dark-color !important;
+}
+
+.mat-mdc-menu-item .mdc-list-item__primary-text {
+    // color: white !important;
+}
+
+mat-label {
+    background-color: transparent !important;
+    color: $light-color !important;
+}
+
+mat-input {
+    background-color: $mid-dark-color !important;
+    color: $light-color !important;
+}
+
+:host .mat-form-field.mat-focused .mat-form-field-underline {
+    background-color: #ff884d; // Desired color when input is focused
+}
+
+:host .mat-form-field-ripple {
+    background-color: #ff884d; // Ripple effect color when focused
+}
+
+.mat-mdc-input-element {
+    caret-color: $light-color !important;
+    color: $light-color;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-floating-label {
+    color: $error-color !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-line-ripple::before {
+    border-bottom-color: $error-color !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+    border-bottom-color: $error-color !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    border-bottom-color: $error-color !important;
+}
+
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+    border-bottom-color: $light-color !important;
+}
+
+.mdc-text-field:hover .mdc-line-ripple::after {
+    border-bottom-color: $light-color !important;
+    ;
+}
+
+.mdc-text-field:not(.mdc-text-field--focused) .mdc-line-ripple::after {
+    border-bottom-color: $light-color !important;
+}
+
+mat-calendar {
+    background-color: $dark-color !important;
+    color: $light-color;
+
+    .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+        border-color: $primer-color;
+        border-width: 2px;
+    }
+
+    .mat-calendar-body-selected {
+        background-color: $primer-color !important;
+        color: $dark-color !important;
+    }
+
+    .mat-calendar-body-in-range::before {
+        background-color: darken-color($primer-color);
+        color: $dark-color !important;
+    }
+
+    .mat-calendar-body-in-preview {
+        color: darken-color($primer-color);
+        // background-color:  darken-color($mid-dark-color, -5);
+    }
+
+    // .mat-calendar-body-cell-content .mat-focus-indicator {
+    //     color: #ff884d !important;
+    // }
+}
+
+.mat-mdc-card-header-text {
+    width: 100% !important;
+}

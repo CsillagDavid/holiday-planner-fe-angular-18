@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
 	selector: 'app-home',
-	imports: [RouterLink, MatIconModule],
+	imports: [MatIconModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })

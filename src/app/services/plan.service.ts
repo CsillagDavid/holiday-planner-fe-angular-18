@@ -16,16 +16,24 @@ export class PlanService {
 
     constructor(private http: HttpClient) { }
 
+    addPlan(plan: Plan): Observable<Plan> {
+        return this.http.post<Plan>(ApiRoutes.plan.addPlan, plan, { headers: this.headers });
+    }
+
+    updatePlan(plan: Plan): Observable<Plan> {
+        return this.http.put<Plan>(ApiRoutes.plan.updatePlan, plan, { headers: this.headers });
+    }
+
     getPlan(planId: number): Observable<Plan> {
         return this.http.get<Plan>(ApiRoutes.plan.getById(planId), { headers: this.headers });
     }
 
-    upsertTravelDay(planId: number, travelDay: TravelDay) {
-        return this.http.post<Plan>(ApiRoutes.plan.upsertTravelDay(planId), travelDay, { headers: this.headers });
+    deletePlan(planId: number) {
+        return this.http.delete<Plan>(ApiRoutes.plan.deletePlan(planId), { headers: this.headers });
     }
 
-    deletePlan() {
-        throw new Error('Method not implemented.');
+    upsertTravelDay(planId: number, travelDay: TravelDay) {
+        return this.http.post<Plan>(ApiRoutes.plan.upsertTravelDay(planId), travelDay, { headers: this.headers });
     }
 
     getPlans(): Observable<Plan[]> {

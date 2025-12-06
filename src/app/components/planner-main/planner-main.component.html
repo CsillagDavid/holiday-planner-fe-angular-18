@@ -1,8 +1,16 @@
 <div class="container">
-    @for(plan of this.plans; track $index) {
-    <app-plan-card [plan]="plan"></app-plan-card>
+    @for(plan of this.plans(); track plan.id) {
+    <app-add-plan-component [planCardData]="plan" (save)="onSave($event)" (delete)="onDelete(plan)"
+        (selectedForEdit)="selectPlan(plan.id)"
+        (cancel)="onCancel()"
+        [disabled]="isComponentDisabled(plan.id)"></app-add-plan-component>
     }
-    <button matIconButton class="add-button">
+    @if(this.isInCreateState()){
+    <app-add-plan-component [crudState]="getCreateCrudState()" (save)="onSave($event)"
+        (cancel)="onCancel()"></app-add-plan-component>
+    } @else {
+    <button class="add-button" (click)="onAddPlan()">
         <mat-icon>add</mat-icon>
     </button>
+    }
 </div>

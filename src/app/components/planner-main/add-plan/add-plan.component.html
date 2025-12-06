@@ -1,0 +1,80 @@
+<form [formGroup]="formGroup">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                @if(isInReadMode()) {
+                <span class="name">{{planCardData.name}}</span>
+                <span class="drop-down-menu-container">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu" [disabled]="disabled" >
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="onEdit()">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="onDelete()">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                </span> } @else {
+                <span>Name</span>
+                <input class="name-input" formControlName="name">
+                }
+            </mat-card-title>
+            @if(isInReadMode()) {
+            <mat-card-subtitle>
+                <span class="total-cost">Total cost placeholder</span>
+            </mat-card-subtitle>
+            }
+        </mat-card-header>
+        {{disabled | json}}
+        @if(isInReadMode()){
+        <div class="index-img-container">
+            <img src="{{getImageUrl()}}" alt="">
+        </div>
+        } @else {
+        <div class="image-uploader-container">
+            <div class="image-uploader-ripple" matRipple (click)="fileUpload.click()"
+                [ngStyle]="{'background-image': 'url(' + getImageUrl() + ')'}"
+                [ngClass]="hasImage() ? 'light-icon' : 'dark-icon'">
+                <mat-icon>add_photo_alternate</mat-icon>
+                <div class="dark-overlay"></div>
+            </div>
+            <input type="file" class="file-input" (change)="onUploadImage($event)" [accept]="'image'" #fileUpload>
+        </div>
+        }
+        <mat-card-content>
+            @if(isInReadMode()){
+            <div class="travel-dates-container">
+                <span>{{planCardData.travelFrom | date:'yy.MM.dd'}} - {{planCardData.travelTo | date:'yy.MM.dd'}}</span>
+            </div>
+            } @else {
+            <mat-form-field>
+                <mat-label>Enter trip date</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matInput matStartDate formControlName="travelFrom" placeholder="Travel from">
+                    <input matInput matEndDate formControlName="travelTo" placeholder="Travel to">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            }
+        </mat-card-content>
+        <mat-card-actions>
+            @if(isInReadMode()) {
+            <button class="navigate-button" (click)="navigate()" [disabled]="disabled">Select</button>
+            } @else {
+            <div class="edit-buttons-container">
+                <button class="save-button" (click)="onSave()" [disabled]="isCreateUpdateButtonDisabled()">
+                    {{isInEditMode() ? 'Update' : 'Create'}}
+                </button>
+                <button class="cancel-button" (click)="onCancel()">
+                    Cancel
+                </button>
+            </div>
+            }
+        </mat-card-actions>
+    </mat-card>
+</form>

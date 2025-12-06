@@ -1,4 +1,6 @@
 @use '@angular/material' as mat;
+@import 'colors.scss';
+@import 'material-angular.overrides.scss';
 
 html,
 body {
@@ -8,29 +10,44 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: rgb(0, 0, 0);
-    color: azure;
+    background-color: $dark-color;
+    color: $light-color;
 
-    .mat-expansion-panel-body{
+    .mat-expansion-panel-body {
         padding: 0rem 0rem 0rem 1rem;
     }
 }
 
-// .mat-mdc-form-field-flex {
-//     background-color: #f5f8ff;
-//     border-radius: 8px;
-//     color: black;
+.mat-mdc-icon-button {
+    color: $concrete-color !important;
+}
 
-//     input {
-//         color: black !important;
-//     }
-// }
+.mat-mdc-form-field-flex {
+    background-color: #f5f8ff;
+    border-radius: 8px;
+    color: black;
 
-// .mat-mdc-form-field-outline {
-//     border-radius: 8px;
-// }
+    // input {
+    //     color: black !important;
+    // }
+}
 
-// .mat-mdc-form-field-flex,
-// .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-//     background-color: rgb(255, 255, 255) !important;
-// }
+.mat-mdc-form-field-outline {
+    border-radius: 8px;
+}
+
+mat-card {
+    background-color: $mid-dark-color !important;
+    border-color: $concrete-color !important;
+}
+
+mat-input {
+    color: $light-color !important;
+    background-color: $mid-dark-color !important;
+}
+
+.mat-mdc-form-field-flex,
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: $dark-color !important;
+    color: $concrete-color;
+}
