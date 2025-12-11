@@ -5,7 +5,7 @@
                 @if(isInReadMode()) {
                 <span class="name">{{planCardData.name}}</span>
                 <span class="drop-down-menu-container">
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu" [disabled]="disabled" >
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu" [disabled]="disabled">
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
@@ -29,7 +29,6 @@
             </mat-card-subtitle>
             }
         </mat-card-header>
-        {{disabled | json}}
         @if(isInReadMode()){
         <div class="index-img-container">
             <img src="{{getImageUrl()}}" alt="">
@@ -47,10 +46,17 @@
         }
         <mat-card-content>
             @if(isInReadMode()){
+            <div class="description-container">
+                <span class="description">{{planCardData.description}}</span>
+            </div>
             <div class="travel-dates-container">
                 <span>{{planCardData.travelFrom | date:'yy.MM.dd'}} - {{planCardData.travelTo | date:'yy.MM.dd'}}</span>
             </div>
             } @else {
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <input matInput type="text" class="description-input" formControlName="description">
+            </mat-form-field>
             <mat-form-field>
                 <mat-label>Enter trip date</mat-label>
                 <mat-date-range-input [rangePicker]="picker">

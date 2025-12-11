@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { Plan } from '../../../api/models/plan.model';
 import { MatDatepickerModule, MatDateRangeInput, MatDateRangePicker } from '@angular/material/datepicker';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,8 +14,6 @@ import { Router } from '@angular/router';
 import { ApiRoutes } from '../../../api/api-routes';
 import { CrudState } from '../../../api/enums/crud-state.enum';
 import { DatePipe, NgStyle, NgClass, JsonPipe } from '@angular/common';
-import { ErrorInputData, ErrorModalComponent } from '../../modals/error-modal/error-modal.component';
-import { MatDialog } from '@angular/material/dialog';
 
 export interface PlanCardData extends Plan {
     imageFile?: File;
@@ -55,19 +53,21 @@ export interface PlanCardData extends Plan {
 
 export class AddPlanComponent implements OnInit {
     @Input() planCardData = {} as PlanCardData;
-    @Input() crudState = CrudState.READ;
     @Input() disabled = false;
+    @Input({ required: true }) crudState = CrudState.READ;
+    @Input() isSelected = false;
 
     @Output() save = new EventEmitter<PlanCardData>();
     @Output() delete = new EventEmitter();
     @Output() cancel = new EventEmitter();
     @Output() selectedForEdit = new EventEmitter();
 
+
     formGroup!: FormGroup;
     previewImage = signal<string | undefined>(undefined);
 
-    constructor(private router: Router
-    ) { }
+    constructor(private router: Router) {
+    }
 
     ngOnInit(): void {
         this.initForm();
@@ -82,12 +82,12 @@ export class AddPlanComponent implements OnInit {
         })
     }
 
-    isInReadMode() {
-        return this.crudState === CrudState.READ;
+    isInEditMode() {
+        return this.isSelected && this.crudState === CrudState.UPDATE;
     }
 
-    isInEditMode() {
-        return this.crudState === CrudState.UPDATE;
+    isInReadMode() {
+        return !this.isSelected;
     }
 
     onUploadImage($event: any) {
@@ -105,19 +105,16 @@ export class AddPlanComponent implements OnInit {
 
     onEdit() {
         this.initForm();
+        this.isSelected = true;
         this.selectedForEdit.emit();
-        this.crudState = CrudState.UPDATE;
     }
 
     onSave() {
-        // this.crudState = CrudState.READ;
         this.save.emit(this.getPlanCardData());
     }
 
-
     onCancel() {
         this.cancel.emit();
-        this.crudState = CrudState.READ;
     }
 
     onDelete() {

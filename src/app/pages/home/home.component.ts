@@ -11,7 +11,8 @@ import { MatIconModule } from "@angular/material/icon";
 export class HomeComponent {
 	fileName = '';
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) {
+		}
 
 	onFileSelected(event: any) {
 

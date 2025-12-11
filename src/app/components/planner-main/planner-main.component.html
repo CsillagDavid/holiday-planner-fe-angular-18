@@ -1,16 +1,18 @@
 <div class="container">
-    @for(plan of this.plans(); track plan.id) {
-    <app-add-plan-component [planCardData]="plan" (save)="onSave($event)" (delete)="onDelete(plan)"
-        (selectedForEdit)="selectPlan(plan.id)"
-        (cancel)="onCancel()"
-        [disabled]="isComponentDisabled(plan.id)"></app-add-plan-component>
-    }
-    @if(this.isInCreateState()){
-    <app-add-plan-component [crudState]="getCreateCrudState()" (save)="onSave($event)"
-        (cancel)="onCancel()"></app-add-plan-component>
-    } @else {
-    <button class="add-button" (click)="onAddPlan()">
-        <mat-icon>add</mat-icon>
-    </button>
-    }
+    <app-loader [isLoading]="isFetching">
+        @for(plan of this.plans(); track plan.id) {
+        <app-add-plan-component [planCardData]="plan" [crudState]="crudState()" (save)="onSave($event)"
+            (delete)="onDelete(plan)" (selectedForEdit)="selectPlan(plan.id)" (cancel)="onCancel()"
+            [disabled]="isComponentDisabled(plan.id)"
+            [isSelected]="selectedPlanId() === plan.id"></app-add-plan-component>
+        }
+        @if(this.isInCreateState()){
+        <app-add-plan-component [crudState]="CRUD_STATE.CREATE" (save)="onSave($event)" [isSelected]="true"
+            (cancel)="onCancel()"></app-add-plan-component>
+        } @else {
+        <button class="add-button" (click)="onAddPlan()">
+            <mat-icon>add</mat-icon>
+        </button>
+        }
+    </app-loader>
 </div>
