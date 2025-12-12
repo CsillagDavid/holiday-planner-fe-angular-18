@@ -21,7 +21,7 @@ export class ErrorModalComponent implements OnInit {
     readonly data = inject<ErrorInputData>(MAT_DIALOG_DATA);
 
     ngOnInit(): void {
-
+        console.log("megnyiltam");
     }
 
     onNext(): void {

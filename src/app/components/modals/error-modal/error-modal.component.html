@@ -1,8 +1,10 @@
-<h2 mat-dialog-title>{{data.header}}</h2>
-<mat-dialog-content>
-    {{data.content}}
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button (click)="onNext()">Ok</button>
-    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
-</mat-dialog-actions>
+<div class="main-container">
+    <h2 mat-dialog-title>{{data.header}}</h2>
+    <mat-dialog-content>
+        {{data.content}}
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="ok-button" mat-button (click)="onNext()">Ok</button>
+        <button class="cancel-button" mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+    </mat-dialog-actions>
+</div>

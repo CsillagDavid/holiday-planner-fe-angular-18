@@ -1,12 +1,19 @@
 <div class="main-container">
-    @if(!this.plan) {
+    @if(!plan) {
     <!-- <span>Loading...</span> -->
     } @else {
+    <div class="back-button-container">
+        <button (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
     <div class="details-container">
         <div class="plan-name"><span>{{plan.name}}</span></div>
-        <div class="travel-from-to-container">
-            <span class="travel-from">{{plan.travelFrom}}</span>
-            <span class="travel-to">{{plan.travelTo}}</span>
+        <div class="index-img-container">
+            <img src="{{getImageUrl()}}" alt="">
+        </div>
+        <div class="travel-dates-container">
+            <span>{{plan.travelFrom | date:'yy.MM.dd'}} - {{plan.travelTo | date:'yy.MM.dd'}}</span>
         </div>
         <div class="travel-day-container">
             @for(travelDay of plan.travelDays; track $index){
@@ -25,7 +32,7 @@
         </form>
     </div>
     }
-    <button matIconButton id="add-button" class="add-button" (click)="onAddTravelDay()">
-        <mat-icon>add</mat-icon>
-    </button>
+    @if(!showAddForm){
+        <app-add-button (click)="onAddTravelDay()"></app-add-button>
+    }
 </div>

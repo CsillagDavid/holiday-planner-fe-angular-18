@@ -1,0 +1,42 @@
+@import '../../../../colors.scss';
+
+.main-container {
+    min-width: 300px;
+    min-height: 150px;
+    background-color: $mid-dark-color;
+
+    button {
+        border-style: none;
+        border-radius: 8px;
+        height: 28px;
+
+        &.ok-button {
+            margin-right: 8px;
+            width: 48px;
+            background-color: $primer-color;
+
+            &:hover {
+                background-color: hover-color($primer-color);
+                cursor: pointer;
+            }
+        }
+
+        &.cancel-button {
+            width: 48px;
+            background-color: $error-color;
+
+            &:hover {
+                background-color: hover-color($error-color);
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.mdc-dialog__content, .mdc-dialog__title {
+    color: $light-color;;
+}
+
+mat-dialog-actions {
+    padding: 4px 16px 0px 16px;
+}

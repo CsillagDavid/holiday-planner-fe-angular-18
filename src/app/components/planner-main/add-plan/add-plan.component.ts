@@ -13,7 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { ApiRoutes } from '../../../api/api-routes';
 import { CrudState } from '../../../api/enums/crud-state.enum';
-import { DatePipe, NgStyle, NgClass, JsonPipe } from '@angular/common';
+import { DatePipe, NgStyle, NgClass } from '@angular/common';
+import * as imageUtil from '../../../api/utils/image.util';
 
 export interface PlanCardData extends Plan {
     imageFile?: File;
@@ -43,8 +44,7 @@ export interface PlanCardData extends Plan {
         MatCardSubtitle,
         DatePipe,
         NgStyle,
-        NgClass,
-        JsonPipe],
+        NgClass],
     providers: [provideNativeDateAdapter()],
     templateUrl: './add-plan.component.html',
     styleUrl: './add-plan.component.scss',
@@ -135,7 +135,7 @@ export class AddPlanComponent implements OnInit {
     }
 
     getImageUrl() {
-        return this.previewImage() ?? (this.planCardData?.indexPictureId ? ApiRoutes.attachment.getImage(this.planCardData.indexPictureId) : '');
+        return this.previewImage() ?? imageUtil.getImageUrl(this.planCardData?.indexPictureId);
     }
 
     isFormUpdated(): boolean {
