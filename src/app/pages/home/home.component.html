@@ -12,6 +12,11 @@
     </button>
 </div>
 
+<input type="file" class="file-input"
+    multiple
+    accept=".gpx"
+    [textContent]="'Multiple file upload'"
+       (change)="onMultipleFileSelected($event)">
 <div>
     <button (click)="getAll()">GetAll</button>
 </div>

@@ -1,21 +1,74 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-gpx';
+import { MatIconModule } from "@angular/material/icon";
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NgClass, NgIf } from '@angular/common';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
+
+/**
+ * Food data with nested structure.
+ * Each node has a name and an optional list of children.
+ */
+interface MapLayerNode {
+	name: string;
+	children?: MapLayerNode[];
+}
+
+/** Flat node with expandable and level information */
+interface FlatNode {
+	expandable: boolean;
+	name: string;
+	level: number;
+}
 
 @Component({
 	selector: 'app-map',
-	imports: [],
+	imports: [MatIconModule, MatSidenavModule, NgClass, MatTreeModule],
 	templateUrl: './map.component.html',
 	styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {
+	@Input() isSideNavHidden: boolean = false;
 	private map!: L.Map;
 	private ZOOM_THRESHOLD = 10;
 	private gpxLayers: L.GPX[] = [];
 	private boundsGroup = L.featureGroup();
 
-	constructor(private http: HttpClient) { }
+	sidenavOpened: boolean = false;
+
+	private _transformer = (node: MapLayerNode, level: number) => {
+		return {
+			expandable: !!node.children && node.children.length > 0,
+			name: node.name,
+			level: level,
+		};
+	};
+
+	treeControl = new FlatTreeControl<FlatNode>(
+		node => node.level,
+		node => node.expandable,
+	);
+
+	treeFlattener = new MatTreeFlattener(
+		this._transformer,
+		node => node.level,
+		node => node.expandable,
+		node => node.children,
+	);
+
+	dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+	constructor(private http: HttpClient,
+		private ngZone: NgZone
+	) {
+		this.dataSource.data = EXAMPLE_DATA;
+	}
+
+	hasChild = (_: number, node: FlatNode) => node.expandable;
+
 
 	ngAfterViewInit(): void {
 		this.initMap();
@@ -31,8 +84,8 @@ export class MapComponent implements AfterViewInit {
 			iconRetinaUrl: 'marker-icon.png',
 			iconUrl: 'marker-icon.png',
 			iconSize: {
-				x: 40,
-				y: 40
+				x: 0,
+				y: 0
 			},
 			iconAnchor: {
 				x: 20,
@@ -56,16 +109,27 @@ export class MapComponent implements AfterViewInit {
 
 		var freeMapSk = L.tileLayer('https://outdoor.tiles.freemap.sk/{z}/{x}/{y}', {
 			maxZoom: 19,
+		});	
+		
+		var bergfex = L.tileLayer('https://tiles.bergfex.at/styles/bergfex-osm/{z}/{x}/{y}.jpg', {
+			maxZoom: 19,
+		});
+
+		var openHiking = L.tileLayer('https://maps.refuges.info/hiking/{z}/{x}/{y}.png', {
+			maxZoom: 19,
 		});
 
 		var baseMaps = {
 			"OpenStreetMap": osm,
 			"OpenStreetMap.HOT": osmHOT,
-			"freemap.sk": freeMapSk
+			"freemap.sk": freeMapSk,
+			"bergfex": bergfex,
+			"openHiking": openHiking,
 		};
 
 		this.map = L.map('map', {
-			layers: [osm]
+			layers: [osm],
+			renderer: L.canvas()
 		}).setView([47.083, 19.611], 7);
 
 		var hikingTrails = L.tileLayer('https://tile.waymarkedtrails.org/{id}/{z}/{x}/{y}.png', {
@@ -89,7 +153,7 @@ export class MapComponent implements AfterViewInit {
 		// control.addOverlay(HikingTrails, "Hiking Routes");
 		// control.addOverlay(CyclingTrails, "Cycling Routes");
 
-		// var url = "Bakonyi Barangolás 20 öbt.gpx";
+		var url = "Bakonyi Barangolás 20 öbt.gpx";
 
 		// this.http.get("https://localhost:44375/api/attachment/gpx/1", { responseType: 'blob' })
 		// 	.subscribe(blob => {
@@ -97,41 +161,52 @@ export class MapComponent implements AfterViewInit {
 		// 		this.addGpx(url);
 		// 	});
 
-		//TODO!!! Mivel nincs leszűrve, hogy csak xml file-okat adjon vissza az endpoint, így a feltöltött képeket is visszaadja és meghal a kód
-		// this.http.get("https://localhost:44375/api/attachment/allToDisplay", { responseType: 'json' })
-		// 	.subscribe(res => {
-		// 		(res as any[]).forEach(gpxString => {
-		// 			const parser = new DOMParser();
-		// 			const xmlDoc = parser.parseFromString(gpxString, 'application/xml');
-		// 			this.addGpx(gpxString);
-		// 		});
+		this.ngZone.runOutsideAngular(() => {
+			this.http.get("https://localhost:44375/api/attachment/allToDisplay", { responseType: 'json' })
+				.subscribe(res => {
+					this.addGpxFiles(res as string[]);
+					// .subscribe(res => {
+					// 	(res as any[]).forEach(gpxString => {
+					// 		// const parser = new DOMParser();
+					// 		// const xmlDoc = parser.parseFromString(gpxString, 'application/xml');
+					// 		this.addGpx(gpxString);
+					// 		// this.map.fitBounds(this.boundsGroup.getBounds());
+					// 	});
 
-		// 		this.map.fitBounds(this.boundsGroup.getBounds());
-
-		// 		// this.map.on('zoomend', () => {
-		// 		// 	const show = this.map.getZoom() >= this.ZOOM_THRESHOLD;
-		// 		// 	console.log(show);
-		// 		// 	this.gpxLayers.forEach(gpx => {
-		// 		// 		gpx.getLayers().forEach((layer: any) => {
-		// 		// 			console.log(layer._layers);
-		// 		// 			// if (layer instanceof L.Marker) {
-		// 		// 			// 	const iconEl = layer.getElement();
-		// 		// 			// 	console.log(iconEl);
-		// 		// 			// 	if (iconEl) {
-		// 		// 			// 		iconEl.style.display = show ? '' : 'none';
-		// 		// 			// 	}
-		// 		// 			// }
-		// 		// 		});
-		// 		// 	});
-		// 		// });
-		// 	});
+					// this.map.on('zoomend', () => {
+					// 	const show = this.map.getZoom() >= this.ZOOM_THRESHOLD;
+					// 	console.log(show);
+					// 	this.gpxLayers.forEach(gpx => {
+					// 		gpx.getLayers().forEach((layer: any) => {
+					// 			console.log(layer._layers);
+					// 			// if (layer instanceof L.Marker) {
+					// 			// 	const iconEl = layer.getElement();
+					// 			// 	console.log(iconEl);
+					// 			// 	if (iconEl) {
+					// 			// 		iconEl.style.display = show ? '' : 'none';
+					// 			// 	}
+					// 			// }
+					// 		});
+					// 	});
+					// });
+				});
+		});
 	}
 
-	addGpx(url: any) {
+	addGpxFiles(urls: string[]) {
+		const group = L.featureGroup();
+		urls.forEach(url => {
+			const layer = this.getGpxItem(url);
+			group.addLayer(layer);
+		});
+		group.addTo(this.map);
+	}
+
+	getGpxItem(url: string): L.GPX {
 		const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 		var colorOptions = { color: randomColor, opacity: 1 } as L.PolylineOptions;
 		var gpx = new L.GPX(url, {
-			async: true,
+			async: false,
 			marker_options: {
 				startIcon: undefined,
 				endIcon: undefined,
@@ -142,13 +217,18 @@ export class MapComponent implements AfterViewInit {
 			// console.log('Added ', e);
 		}).on('loaded', (e: any) => {
 			console.log(e);
-			this.boundsGroup.addLayer(gpx);
+			// this.boundsGroup.addLayer(gpx);
 			// this.map.fitBounds(e.target.getBounds());
 		}).on('error', function (e) {
 			console.log('Error loading file: ', e);
 		}).on('mouseup', (e: any) => {
 			this.map.fitBounds(e.target.getBounds());
-		}).addTo(this.map);
+		});
+		return gpx;
+	}
+
+	addGpx(url: any) {
+		var gpx = this.getGpxItem(url).addTo(this.map);
 
 		this.gpxLayers.push(gpx);
 
@@ -167,4 +247,32 @@ export class MapComponent implements AfterViewInit {
 		// })
 		// .addTo(this.map);
 	}
+
+	onSidenavButtonClicked() {
+		this.sidenavOpened = !this.sidenavOpened;
+	}
 }
+
+const EXAMPLE_DATA: MapLayerNode[] = [
+	{
+		name: 'Markers',
+		children: [{
+			name: 'Öreg Bakony Bakancsosa'
+		},
+		{
+			name: 'Várak a Magas Bakonyban'
+		}],
+	},
+	{
+		name: 'Routes',
+		children: [
+			{
+				name: 'OKT',
+				children: [{
+					name: 'OKT 8. szakasz',
+					children: [{ name: 'Kőris-hegy - Zirc' }]
+				}],
+			}
+		],
+	},
+];

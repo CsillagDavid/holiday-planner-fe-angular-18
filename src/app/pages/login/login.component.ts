@@ -9,6 +9,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PlanService } from '../../services/plan.service';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-login',
@@ -29,7 +30,8 @@ export class LoginComponent {
 
 	constructor(private authService: AuthService,
 		private planService: PlanService,
-		private router: Router) {
+		private router: Router,
+		private snackBar: MatSnackBar) {
 		this.loginFormGroup = new FormGroup({
 			email: new FormControl('', [Validators.required, Validators.email]),
 			password: new FormControl('', [Validators.required])
@@ -44,10 +46,15 @@ export class LoginComponent {
 
 	onLogin() {
 		this.authService.loginWithCookie({ username: "dcsillag", password: "P@ss11wd" }).subscribe({
+		// this.authService.loginWithCookie({ username: this.loginFormGroup.get('email')?.value, password: this.loginFormGroup.get('password')?.value }).subscribe({
 			next: () => {
 				this.router.navigate(['/']); // Sikeres login → home
 			},
-			error: error => console.log(error)
+			error: () => {
+				this.snackBar.open('Login failed. Please check your credentials.', 'Close', {
+					duration: 3000,
+				});
+			}
 		});
 	}
 

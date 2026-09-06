@@ -22,6 +22,14 @@ export class NavbarComponent {
     {
         literal: 'Plans',
         navTo: '/plans'
+    },
+    {
+        literal: 'Hike plans',
+        navTo: '/hike-plans'
+    },
+    {
+        literal: 'Shared hikes',
+        navTo: '/shared-hikes'
     }];
     private route = inject(ActivatedRoute);
 

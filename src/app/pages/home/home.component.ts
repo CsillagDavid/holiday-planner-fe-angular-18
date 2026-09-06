@@ -12,7 +12,24 @@ export class HomeComponent {
 	fileName = '';
 
 	constructor(private http: HttpClient) {
-		}
+	}
+
+	onMultipleFileSelected(event: any) {
+
+		const files: FileList = event.target.files;
+
+		files && Array.from(files).forEach(file => {
+			this.fileName = file.name;
+
+			const formData = new FormData();
+
+			formData.append("thumbnail", file);
+
+			const upload$ = this.http.post("https://localhost:44375/api/attachment", formData);
+
+			upload$.subscribe();
+		});
+	}
 
 	onFileSelected(event: any) {
 
